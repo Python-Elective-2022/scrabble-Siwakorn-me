@@ -71,8 +71,20 @@ def get_word_score(word, n):
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     returns: int >= 0
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    # check pre-condition
+    #assert type(word) == str, "type mismatch is call to function get_word_score()"
+    #assert type(n) == int, "type mismatch is call to function get_word_score()"
+    #assert word.islower() == True, f'{word} is not lowercase in call to function get_word_score()'
+    #assert len(word) == n, "word exceed length  n in call to function get_word_score()"
 
+    score = 0
+    for letters in word:
+        if letters in SCRABBLE_LETTER_VALUES:
+            score += int(SCRABBLE_LETTER_VALUES[letters])
+    word_score = score * len(word)
+    if len(word) == n:
+        word_score += 50
+    return word_score
 
 #
 # Problem #2: Make sure you understand how this function works and what it does!
