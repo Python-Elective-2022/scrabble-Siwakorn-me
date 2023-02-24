@@ -158,9 +158,13 @@ def update_hand(hand, word):
     returns: dictionary (string -> int)
     """
     # TO DO ... <-- Remove this comment when you code this function
-
-
-#
+    new_hand = hand.copy()
+    for letter in word:
+        if letter in new_hand:
+            new_hand[letter] = new_hand.get(letter) - 1
+            if new_hand[letter] == 0:
+                del new_hand[letter]
+    return new_hand
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
