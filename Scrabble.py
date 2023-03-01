@@ -71,11 +71,9 @@ def get_word_score(word, n):
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     returns: int >= 0
     """
-    # check pre-condition
-    #assert type(word) == str, "type mismatch is call to function get_word_score()"
-    #assert type(n) == int, "type mismatch is call to function get_word_score()"
-    #assert word.islower() == True, f'{word} is not lowercase in call to function get_word_score()'
-    #assert len(word) == n, "word exceed length  n in call to function get_word_score()"
+
+    assert type(word) == str, "type mismatch is call to function get_word_score()"
+    assert type(n) == int, "type mismatch is call to function get_word_score()"
 
     score = 0
     for letters in word:
@@ -160,8 +158,9 @@ def update_hand(hand, word):
     # TO DO ... <-- Remove this comment when you code this function
     new_hand = hand.copy()
     for letter in word:
+        assert letter in new_hand, "letter not in hand"
         if letter in new_hand:
-            new_hand[letter] = new_hand.get(letter) - 1
+            new_hand[letter] -= 1
             if new_hand[letter] == 0:
                 del new_hand[letter]
     return new_hand
@@ -179,7 +178,18 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
     # TO DO ... <-- Remove this comment when you code this function
-
+    hand_copy = hand.copy()
+    if word in word_list:
+        for letter in word:
+            if letter in hand_copy:
+                hand_copy[letter] = hand_copy.get(letter) -1
+                if hand_copy[letter] < 0:
+                    return False
+            else:
+                return False
+    else:
+        return False
+    return True
 
 #
 # Problem #4: Playing a hand
@@ -194,6 +204,7 @@ def calculate_hand_len(hand):
     """
     # TO DO... <-- Remove this comment when you code this function
 
+    return hand
 
 def play_hand(hand, word_list, n):
     """
