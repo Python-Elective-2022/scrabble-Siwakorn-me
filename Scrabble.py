@@ -71,8 +71,18 @@ def get_word_score(word, n):
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     returns: int >= 0
     """
-    # TO DO ... <-- Remove this comment when you code this function
 
+    assert type(word) == str, "type mismatch is call to function get_word_score()"
+    assert type(n) == int, "type mismatch is call to function get_word_score()"
+
+    score = 0
+    for letters in word:
+        if letters in SCRABBLE_LETTER_VALUES:
+            score += int(SCRABBLE_LETTER_VALUES[letters])
+    word_score = score * len(word)
+    if len(word) == n:
+        word_score += 50
+    return word_score
 
 #
 # Problem #2: Make sure you understand how this function works and what it does!
@@ -146,9 +156,14 @@ def update_hand(hand, word):
     returns: dictionary (string -> int)
     """
     # TO DO ... <-- Remove this comment when you code this function
-
-
-#
+    new_hand = hand.copy()
+    for letter in word:
+        assert letter in new_hand, "letter not in hand"
+        if letter in new_hand:
+            new_hand[letter] -= 1
+            if new_hand[letter] == 0:
+                del new_hand[letter]
+    return new_hand
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
@@ -163,7 +178,18 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     """
     # TO DO ... <-- Remove this comment when you code this function
-
+    hand_copy = hand.copy()
+    if word in word_list:
+        for letter in word:
+            if letter in hand_copy:
+                hand_copy[letter] = hand_copy.get(letter) -1
+                if hand_copy[letter] < 0:
+                    return False
+            else:
+                return False
+    else:
+        return False
+    return True
 
 #
 # Problem #4: Playing a hand
@@ -178,6 +204,7 @@ def calculate_hand_len(hand):
     """
     # TO DO... <-- Remove this comment when you code this function
 
+    return hand
 
 def play_hand(hand, word_list, n):
     """
